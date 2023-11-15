@@ -1,0 +1,20 @@
+C:\osnova\c#\BirdsHome\BirdsHome\bin\Debug\BirdsHome.exe.config
+C:\osnova\c#\BirdsHome\BirdsHome\bin\Debug\BirdsHome.exe
+C:\osnova\c#\BirdsHome\BirdsHome\bin\Debug\BirdsHome.pdb
+C:\osnova\c#\BirdsHome\BirdsHome\obj\Debug\BirdsHome.csproj.AssemblyReference.cache
+C:\osnova\c#\BirdsHome\BirdsHome\obj\Debug\BirdsHome.Form1.resources
+C:\osnova\c#\BirdsHome\BirdsHome\obj\Debug\BirdsHome.Properties.Resources.resources
+C:\osnova\c#\BirdsHome\BirdsHome\obj\Debug\BirdsHome.csproj.GenerateResource.cache
+C:\osnova\c#\BirdsHome\BirdsHome\obj\Debug\BirdsHome.csproj.CoreCompileInputs.cache
+C:\osnova\c#\BirdsHome\BirdsHome\obj\Debug\BirdsHome.exe
+C:\osnova\c#\BirdsHome\BirdsHome\obj\Debug\BirdsHome.pdb
+C:\Users\lonke\OneDrive\Рабочий стол\BirdsHome\BirdsHome\bin\Debug\BirdsHome.exe.config
+C:\Users\lonke\OneDrive\Рабочий стол\BirdsHome\BirdsHome\bin\Debug\BirdsHome.exe
+C:\Users\lonke\OneDrive\Рабочий стол\BirdsHome\BirdsHome\bin\Debug\BirdsHome.pdb
+C:\Users\lonke\OneDrive\Рабочий стол\BirdsHome\BirdsHome\obj\Debug\BirdsHome.csproj.AssemblyReference.cache
+C:\Users\lonke\OneDrive\Рабочий стол\BirdsHome\BirdsHome\obj\Debug\BirdsHome.Form1.resources
+C:\Users\lonke\OneDrive\Рабочий стол\BirdsHome\BirdsHome\obj\Debug\BirdsHome.Properties.Resources.resources
+C:\Users\lonke\OneDrive\Рабочий стол\BirdsHome\BirdsHome\obj\Debug\BirdsHome.csproj.GenerateResource.cache
+C:\Users\lonke\OneDrive\Рабочий стол\BirdsHome\BirdsHome\obj\Debug\BirdsHome.csproj.CoreCompileInputs.cache
+C:\Users\lonke\OneDrive\Рабочий стол\BirdsHome\BirdsHome\obj\Debug\BirdsHome.exe
+C:\Users\lonke\OneDrive\Рабочий стол\BirdsHome\BirdsHome\obj\Debug\BirdsHome.pdb
