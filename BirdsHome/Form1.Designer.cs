@@ -29,15 +29,16 @@
       private void InitializeComponent()
       {
          this.history = new System.Windows.Forms.ListBox();
-         this.textBox1 = new System.Windows.Forms.TextBox();
+         this.intensiveFlying = new System.Windows.Forms.TextBox();
          this.label1 = new System.Windows.Forms.Label();
          this.label2 = new System.Windows.Forms.Label();
-         this.textBox2 = new System.Windows.Forms.TextBox();
+         this.timeEating = new System.Windows.Forms.TextBox();
          this.start = new System.Windows.Forms.Button();
          this.label3 = new System.Windows.Forms.Label();
          this.outBirdsOnBirdsFeeding = new System.Windows.Forms.Label();
          this.outBirdsOnBranch = new System.Windows.Forms.Label();
          this.label5 = new System.Windows.Forms.Label();
+         this.reload = new System.Windows.Forms.Button();
          this.SuspendLayout();
          // 
          // history
@@ -49,18 +50,19 @@
          this.history.Size = new System.Drawing.Size(273, 144);
          this.history.TabIndex = 0;
          // 
-         // textBox1
+         // intensiveFlying
          // 
-         this.textBox1.Location = new System.Drawing.Point(290, 23);
-         this.textBox1.Name = "textBox1";
-         this.textBox1.Size = new System.Drawing.Size(143, 26);
-         this.textBox1.TabIndex = 1;
-         this.textBox1.TextChanged += new System.EventHandler(this.TextBoxChanged_TextChanged);
+         this.intensiveFlying.Location = new System.Drawing.Point(306, 23);
+         this.intensiveFlying.Name = "intensiveFlying";
+         this.intensiveFlying.Size = new System.Drawing.Size(143, 26);
+         this.intensiveFlying.TabIndex = 1;
+         this.intensiveFlying.Text = "0";
+         this.intensiveFlying.TextChanged += new System.EventHandler(this.TextBoxChanged_TextChanged);
          // 
          // label1
          // 
          this.label1.AutoSize = true;
-         this.label1.Location = new System.Drawing.Point(292, 64);
+         this.label1.Location = new System.Drawing.Point(308, 64);
          this.label1.Name = "label1";
          this.label1.Size = new System.Drawing.Size(141, 20);
          this.label1.TabIndex = 2;
@@ -69,29 +71,30 @@
          // label2
          // 
          this.label2.AutoSize = true;
-         this.label2.Location = new System.Drawing.Point(454, 64);
+         this.label2.Location = new System.Drawing.Point(486, 64);
          this.label2.Name = "label2";
          this.label2.Size = new System.Drawing.Size(143, 20);
          this.label2.TabIndex = 4;
          this.label2.Text = "время кормления";
          // 
-         // textBox2
+         // timeEating
          // 
-         this.textBox2.Location = new System.Drawing.Point(454, 23);
-         this.textBox2.Name = "textBox2";
-         this.textBox2.Size = new System.Drawing.Size(143, 26);
-         this.textBox2.TabIndex = 3;
-         this.textBox2.TextChanged += new System.EventHandler(this.TextBoxChanged_TextChanged);
+         this.timeEating.Location = new System.Drawing.Point(486, 23);
+         this.timeEating.Name = "timeEating";
+         this.timeEating.Size = new System.Drawing.Size(143, 26);
+         this.timeEating.TabIndex = 3;
+         this.timeEating.Text = "0";
+         this.timeEating.TextChanged += new System.EventHandler(this.TextBoxChanged_TextChanged);
          // 
          // start
          // 
-         this.start.Location = new System.Drawing.Point(490, 102);
+         this.start.Location = new System.Drawing.Point(425, 114);
          this.start.Name = "start";
          this.start.Size = new System.Drawing.Size(75, 32);
          this.start.TabIndex = 5;
-         this.start.Text = "start";
+         this.start.Text = "старт";
          this.start.UseVisualStyleBackColor = true;
-         this.start.Click += new System.EventHandler(this.button1_Click);
+         this.start.Click += new System.EventHandler(this.StartFlying_Click);
          // 
          // label3
          // 
@@ -129,20 +132,32 @@
          this.label5.TabIndex = 8;
          this.label5.Text = "Птиц на ветке";
          // 
+         // reload
+         // 
+         this.reload.BackColor = System.Drawing.SystemColors.Info;
+         this.reload.Location = new System.Drawing.Point(655, 39);
+         this.reload.Name = "reload";
+         this.reload.Size = new System.Drawing.Size(117, 33);
+         this.reload.TabIndex = 10;
+         this.reload.Text = "перезапуск";
+         this.reload.UseVisualStyleBackColor = false;
+         this.reload.Click += new System.EventHandler(this.reload_Click);
+         // 
          // Form1
          // 
          this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
          this.ClientSize = new System.Drawing.Size(800, 450);
+         this.Controls.Add(this.reload);
          this.Controls.Add(this.outBirdsOnBranch);
          this.Controls.Add(this.label5);
          this.Controls.Add(this.outBirdsOnBirdsFeeding);
          this.Controls.Add(this.label3);
          this.Controls.Add(this.start);
          this.Controls.Add(this.label2);
-         this.Controls.Add(this.textBox2);
+         this.Controls.Add(this.timeEating);
          this.Controls.Add(this.label1);
-         this.Controls.Add(this.textBox1);
+         this.Controls.Add(this.intensiveFlying);
          this.Controls.Add(this.history);
          this.Name = "Form1";
          this.Text = "Form1";
@@ -155,15 +170,16 @@
       #endregion
 
       private System.Windows.Forms.ListBox history;
-      private System.Windows.Forms.TextBox textBox1;
+      private System.Windows.Forms.TextBox intensiveFlying;
       private System.Windows.Forms.Label label1;
       private System.Windows.Forms.Label label2;
-      private System.Windows.Forms.TextBox textBox2;
+      private System.Windows.Forms.TextBox timeEating;
       private System.Windows.Forms.Button start;
       private System.Windows.Forms.Label label3;
       private System.Windows.Forms.Label outBirdsOnBirdsFeeding;
       private System.Windows.Forms.Label outBirdsOnBranch;
       private System.Windows.Forms.Label label5;
+      private System.Windows.Forms.Button reload;
    }
 }
 

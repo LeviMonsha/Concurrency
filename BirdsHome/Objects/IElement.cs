@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace BirdsHome.Persons
 {
-   internal abstract class Element : PictureBox
+   public abstract class Element : PictureBox
    {
       public abstract string Source { get; }
       public void SetStats(int[][] stats, Element obj)

@@ -52,16 +52,16 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Persons\Bird.cs">
+    <Compile Include="Objects\Bird.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Persons\BirdFeeding.cs">
+    <Compile Include="Objects\BirdFeeding.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Persons\Branch.cs">
+    <Compile Include="Objects\Branch.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Persons\IElement.cs">
+    <Compile Include="Objects\IElement.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Program.cs" />

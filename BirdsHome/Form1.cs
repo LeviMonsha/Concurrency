@@ -1,49 +1,38 @@
 ﻿using BirdsHome.Persons;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Configuration;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml.Linq;
 
 namespace BirdsHome
 {
    public partial class Form1 : Form
    {
+      int capacityBirdFeeding = 3;
+      int timeFlyNextPixel = 1;
       int timeFlyingBirdToBranch;
       int timeBirdEatingMaxValue;
-      int countBirdsInAll;
-      int capacityBirdFeeding;
-      Bird startBird;
+      int idBird;
+      Random rnd;
       Branch branch;
       BirdFeeding birdFeeding;
-      List<Element> elements;
 
       public Form1()
       {
          InitializeComponent();
       }
 
-      private void button1_Click(object sender, EventArgs e)
+      private void StartFlying_Click(object sender, EventArgs e)
       {
          try
          {
-            timeFlyingBirdToBranch = int.Parse(textBox1.Text);
-            timeBirdEatingMaxValue = int.Parse(textBox2.Text);
-
+            timeFlyingBirdToBranch = int.Parse(intensiveFlying.Text);
+            timeBirdEatingMaxValue = int.Parse(timeEating.Text);
             Bird.TimeFlyingBirdToBranch = timeFlyingBirdToBranch;
-            birdFeeding.CountBirdsMax = capacityBirdFeeding;
-            outBirdsOnBirdsFeeding.Text = birdFeeding.CountBirdsNow.ToString();
-            outBirdsOnBranch.Text = branch.StartBirdInBranch.ToString();
-
-            _ = FlyingToBranch();
+            OutputInfo();
+            InitionalStartBirds();
          }
          catch (Exception ex)
          {
@@ -51,59 +40,71 @@ namespace BirdsHome
          }
       }
 
-      private async Task FlyingToBranch()
+      private void InitionalStartBirds()
       {
-         await Task.Run(async () =>
+         start.Enabled = false;
+         _ = BirdsFlyToBranch();
+      }
+
+      private async Task BirdsFlyToBranch()
+      {
+         await Task.Run(() =>
          {
             while (true)
             {
                branch.StartBirdInBranch += 1;
-               outBirdsOnBranch.Text = branch.StartBirdInBranch.ToString();
-               int readyToFly = branch.StartBirdInBranch >= birdFeeding.CountBirdsMax ? birdFeeding.CountBirdsMax : branch.StartBirdInBranch;
-
-               int freeSeats = birdFeeding.CountBirdsMax - birdFeeding.CountBirdsNow;
-               if (readyToFly <= freeSeats && readyToFly != 0)
-               {
-                  for (int i = 0; i < readyToFly; i++)
-                  {
-                     countBirdsInAll += 1;
-                     Bird birdInBirdHouse = null;
-                     this.Invoke((MethodInvoker)delegate
-                     {
-                        birdInBirdHouse = CreateBird();
-                        this.Controls.Add(birdInBirdHouse);
-                        birdInBirdHouse.BringToFront();
-                     });
-                     UpdateOutput();
-                     _ = FlyingToBirdHouse(birdInBirdHouse);
-                  }
-               }
-               await Task.Delay(Bird.TimeFlyingBirdToBranch);
+               idBird += 1;
+               OutputInfo();
+               CreateBirdToFly();
+               Thread.Sleep(timeFlyingBirdToBranch);
             }
          });
       }
-      private Bird CreateBird()
+
+      private void CreateBirdToFly() 
       {
-         Bird birdInBirdHouse = new Bird(Width, Height);
-         Random rnd = new Random();
-         birdInBirdHouse.TimeBirdEating = rnd.Next(300, timeBirdEatingMaxValue);
-         birdInBirdHouse.Id = countBirdsInAll;
-         return birdInBirdHouse;
+         Bird birdInBirdHouse = new Bird(Width, Height, idBird);
+         this.Invoke((MethodInvoker)delegate
+         {
+            birdInBirdHouse.TimeBirdEating = GetRandomNum(timeBirdEatingMaxValue / 2, timeBirdEatingMaxValue);
+            this.Controls.Add(birdInBirdHouse);
+            birdInBirdHouse.BringToFront();
+         });
+         OutputInfo();
       }
 
-      private void UpdateOutput()
+      private int GetRandomNum(int min, int max) => rnd.Next(min, max);
+      
+      private void OutputInfo()
       {
+         this.Invoke((MethodInvoker)delegate
+         {
+            outBirdsOnBirdsFeeding.Text = BirdFeeding.CountBirdNow.ToString();
+            outBirdsOnBranch.Text = branch.StartBirdInBranch.ToString();
+         });
+      }
+
+      private async Task MoveBirdToBirdHome(object brd)
+      {
+         var flyingBird = brd as Bird;
+         BirdFeeding.CountBirdNow += 1;
          branch.StartBirdInBranch -= 1;
-         birdFeeding.CountBirdsNow += 1;
-         outBirdsOnBirdsFeeding.Text = birdFeeding.CountBirdsNow.ToString();
-      }
+         int finishPointX = birdFeeding.Location.X + birdFeeding.Location.X / 3;
+         int finishPointY = birdFeeding.Location.Y + birdFeeding.Location.Y / 6;
 
-      private async Task FlyingToBirdHouse(Bird brd)
-      {
-         await MoveBirdToFeeding(brd);
-         brd.Thread = new Thread(new ParameterizedThreadStart(FeedBirdsAsync));
-         brd.Thread.Name = $"{brd.Id}";
-         brd.Thread.Start(brd);
+         var leftOrRingth = RecognizeStartEndPoint(flyingBird.Location.X, finishPointX);
+         var upOrDown = RecognizeStartEndPoint(flyingBird.Location.Y, finishPointY);
+         while (true)
+         {
+            if (flyingBird.Location.X != finishPointX)
+               flyingBird.Location = new Point(leftOrRingth(flyingBird.Location.X, 1), flyingBird.Location.Y);
+            if (flyingBird.Location.Y != finishPointY)
+               flyingBird.Location = new Point(flyingBird.Location.X, upOrDown(flyingBird.Location.Y, 1));
+            if (flyingBird.Location.X == finishPointX && flyingBird.Location.Y == finishPointY)
+               break;
+            Thread.Sleep(timeFlyNextPixel);
+         }
+         flyingBird.Visible = false;
       }
 
       private void TextBoxChanged_TextChanged(object sender, EventArgs e)
@@ -119,44 +120,35 @@ namespace BirdsHome
 
       private void Form1_Load(object sender, EventArgs e)
       {
-         capacityBirdFeeding = 3;
-         startBird = new Bird(Width, Height);
          branch = new Branch(0, Width, Height);
          birdFeeding = new BirdFeeding(capacityBirdFeeding, Width, Height);
-         elements = new List<Element> { startBird, branch, birdFeeding };
+         var elements = new List<Element> { new Bird(Width, Height), branch, birdFeeding };
+         rnd = new Random();
+         BirdFeeding.Sem = new Semaphore(3, 3);
+
+
+         birdFeeding.BirdFlyingInto += MoveBirdToBirdHome;
+         birdFeeding.BirdFlyingAway += LeaveBird;
+         birdFeeding.SendMessage = OutputStateBirdFeeding;
+         Bird.OnBirdAction += birdFeeding.FeedBirdsAsync;
 
          foreach (var x in elements)
-            this.Controls.Add(x);
-      }
-
-      private async Task MoveBirdToFeeding(Bird flyingBird)
-      {
-         await Task.Run(() =>
          {
-
-            int finishPointX = birdFeeding.Location.X + birdFeeding.Location.X / 2;
-            int finishPointY = birdFeeding.Location.Y + birdFeeding.Location.Y / 5;
-
-            var leftOrRingth = RecognizeStartEndPoint(flyingBird.Location.X, finishPointX);
-            var upOrDown = RecognizeStartEndPoint(flyingBird.Location.Y, finishPointY);
-            while (true)
-            {
-               if (flyingBird.Location.X != finishPointX)
-               {
-                  flyingBird.Location = new Point(leftOrRingth(flyingBird.Location.X, 1), flyingBird.Location.Y);
-               }
-               if (flyingBird.Location.Y != finishPointY)
-               {
-                  flyingBird.Location = new Point(flyingBird.Location.X, upOrDown(flyingBird.Location.Y, 1));
-               }
-               if (flyingBird.Location.X == finishPointX && flyingBird.Location.Y == finishPointY)
-               {
-                  break;
-               }
-               Thread.Sleep(1);
-            }
-         });
+            this.Controls.Add(x);
+         }
       }
+
+      public void LeaveBird()
+      {
+         BirdFeeding.CountBirdNow -= 1;
+         OutputInfo();
+      }
+
+      public void OutputStateBirdFeeding(string s)
+      {
+         history.Items.Add(s);
+      }
+
 
       delegate int isGrater(int val1, int val2);
       private isGrater RecognizeStartEndPoint(int s1, int s2)
@@ -167,24 +159,10 @@ namespace BirdsHome
          }
          return (int val1, int val2) => val1 + val2;
       }
-      private void FeedBirdsAsync(object obj)
+
+      private void reload_Click(object sender, EventArgs e)
       {
-         BirdFeeding.Sem.WaitOne();
-
-         Bird brd = obj as Bird;
-
-         history.Items.Add($"{Thread.CurrentThread.Name} Влетает в кормушку");
-         history.Items.Add($"{Thread.CurrentThread.Name} клюёт");
-
-         Thread.Sleep(brd.TimeBirdEating);
-
-         history.Items.Add($"{Thread.CurrentThread.Name} покидает");
-
-         birdFeeding.CountBirdsNow -= 1;
-         outBirdsOnBirdsFeeding.Text = birdFeeding.CountBirdsNow.ToString();
-
-         brd.Dispose();
-         BirdFeeding.Sem.Release();
+         history.Items.Clear();
       }
    }
 }
